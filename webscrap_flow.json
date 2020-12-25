@@ -1,0 +1,90 @@
+[
+    {
+        "id": "694adc5f.2544c4",
+        "type": "inject",
+        "z": "cd7c72db.9b893",
+        "name": "make request",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 410,
+        "y": 240,
+        "wires": [
+            [
+                "ce0ae8f.6a0d918"
+            ]
+        ]
+    },
+    {
+        "id": "ce0ae8f.6a0d918",
+        "type": "http request",
+        "z": "cd7c72db.9b893",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://funprojects.blog/2019/11/06/apache-kafka-with-node-red/",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 610,
+        "y": 240,
+        "wires": [
+            [
+                "b60fc727.2eaf38",
+                "64af934.aa5fd6c"
+            ]
+        ]
+    },
+    {
+        "id": "299d2499.452c0c",
+        "type": "debug",
+        "z": "cd7c72db.9b893",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 1130,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "b60fc727.2eaf38",
+        "type": "html",
+        "z": "cd7c72db.9b893",
+        "name": "",
+        "property": "",
+        "outproperty": "",
+        "tag": ".entry-title",
+        "ret": "text",
+        "as": "single",
+        "x": 820,
+        "y": 240,
+        "wires": [
+            [
+                "299d2499.452c0c"
+            ]
+        ]
+    },
+    {
+        "id": "64af934.aa5fd6c",
+        "type": "debug",
+        "z": "cd7c72db.9b893",
+        "name": "full content",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 320,
+        "wires": []
+    }
+]
