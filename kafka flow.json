@@ -1,0 +1,202 @@
+[
+    {
+        "id": "e56f1a2d.787bf8",
+        "type": "jsf",
+        "z": "9fc6a951.9dbfc8",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "lang": "az",
+        "x": 530,
+        "y": 220,
+        "wires": [
+            [
+                "59b0490d.ff6b08",
+                "1f7e6c76.9c7764"
+            ]
+        ]
+    },
+    {
+        "id": "f7f1edcd.b1fb9",
+        "type": "debug",
+        "z": "9fc6a951.9dbfc8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "2b3765a9.eea5ea",
+        "type": "inject",
+        "z": "9fc6a951.9dbfc8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\"},\"filerefs\":{\"type\":\"array\",\"minItems\":1,\"maxItems\":3,\"items\":{\"chance\":\"guid\"}},\"userId\":{\"type\":\"string\",\"chance\":\"guid\"},\"emailAddr\":{\"type\":\"string\",\"chance\":{\"email\":{\"domain\":\"datev.de\"}},\"pattern\":\".+@datev.de\"}},\"required\":[\"id\",\"userId\",\"emailAddr\"]}",
+        "payloadType": "json",
+        "x": 330,
+        "y": 240,
+        "wires": [
+            [
+                "e56f1a2d.787bf8"
+            ]
+        ]
+    },
+    {
+        "id": "59b0490d.ff6b08",
+        "type": "function",
+        "z": "9fc6a951.9dbfc8",
+        "name": "",
+        "func": "var count = context.get(\"counter\") || 0;\ncount +=1;\nmsg.payload.id = count;\ncontext.set(\"counter\", count);\nmsg.header = \"contentType=application/json\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 740,
+        "y": 220,
+        "wires": [
+            [
+                "f7f1edcd.b1fb9"
+            ]
+        ]
+    },
+    {
+        "id": "1f7e6c76.9c7764",
+        "type": "debug",
+        "z": "9fc6a951.9dbfc8",
+        "name": "Before function",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "349ae809.de9598",
+        "type": "Kafka Admin",
+        "z": "9fc6a951.9dbfc8",
+        "name": "",
+        "broker": "52350528.b636dc",
+        "x": 1020,
+        "y": 500,
+        "wires": [
+            [
+                "7a5db625.670d88"
+            ],
+            [
+                "7a5db625.670d88"
+            ]
+        ]
+    },
+    {
+        "id": "7a5db625.670d88",
+        "type": "debug",
+        "z": "9fc6a951.9dbfc8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1260,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "b67943e5.2f164",
+        "type": "http in",
+        "z": "9fc6a951.9dbfc8",
+        "name": "node get http",
+        "url": "/node",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 620,
+        "y": 680,
+        "wires": [
+            [
+                "e04ac883.beb688"
+            ]
+        ]
+    },
+    {
+        "id": "dba6cde0.19cde",
+        "type": "http response",
+        "z": "9fc6a951.9dbfc8",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1010,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "e04ac883.beb688",
+        "type": "template",
+        "z": "9fc6a951.9dbfc8",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<html>\n    <head></head>\n    <body>\n        <h1>Hello World!</h1>\n    </body>\n</html>",
+        "output": "str",
+        "x": 820,
+        "y": 680,
+        "wires": [
+            [
+                "dba6cde0.19cde"
+            ]
+        ]
+    },
+    {
+        "id": "52350528.b636dc",
+        "type": "Kafka Broker",
+        "name": "localhost",
+        "hosts": [
+            {
+                "host": "kafka",
+                "port": 9092
+            }
+        ],
+        "hostsEnvVar": "",
+        "connectTimeout": "10000",
+        "requestTimeout": "30000",
+        "autoConnect": "true",
+        "idleConnection": "5",
+        "reconnectOnIdle": "true",
+        "maxAsyncRequests": "10",
+        "checkInterval": "10",
+        "selfSign": true,
+        "usetls": false,
+        "useCredentials": false
+    }
+]
